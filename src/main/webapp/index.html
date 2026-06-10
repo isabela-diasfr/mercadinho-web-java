@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mercadinho Web</title>
+</head>
+<body>
+<h2>Adicionar ao Carrinho</h2>
+<form action="AdicionarItemServlet" method="POST">
+	Produto: 
+	<input type="text" name="produto" required>
+	Preço:
+	<input type="text" name="preco" required>
+	<button type="submit">Adicionar</button>
+</form>
+<hr>
+<h3>Buscar receitas</h3>
+<input type="text" id="busca" onkeyup="buscarReceitas()" placeholder="Buscar...">
+<ul id="listaReceitas"></ul>
+<script>
+function buscarReceitas() {
+	const query = document.getElementById('busca').value;
+	const lista = document.getElementById('listaReceitas');
+	
+	fetch(`ReceitasServlet?q=${query}`)
+    .then(res => res.json())
+    .then(data => {
+        lista.innerHTML = data.map(receita =>
+            `<li><strong>${receita.nome}</strong> - ${receita.ingredientes} [${receita.cat}]</li>`
+        ).join('');
+    });
+}
+
+</script>
+</body>
+</html>
